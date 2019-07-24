@@ -139,35 +139,6 @@ public class Array {
         return res;
     }
 
-
-    /**
-     * 获取index索引为止的元素，
-     * @param index
-     * @return 对应位置的元素
-     */
-    int get(int index){
-        /*保证了数据的安全：无法访问私有变量VS无法访问超过Size的空间*/
-        if (index < 0 || index > size){
-            throw new IllegalArgumentException("Get failed, Require index >= 0 && index < = size");
-        }
-        return data[index];
-    }
-
-    /**
-     * 设置index位置的元素
-     * @param index
-     * @param e
-     * @return
-     */
-    int set(int index,int e){
-        if (index < 0 || index > size){
-            throw new IllegalArgumentException("Set failed, Require index >= 0 && index < = size");
-        }
-        int res = data[index];
-        data[index] = e;
-        return res;
-    }
-
     @Override/*覆盖父类方式，提示*/
     public String toString() {
 

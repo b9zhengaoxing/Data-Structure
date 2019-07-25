@@ -5,7 +5,7 @@ public class Main {
         // 1. 索引不表意
         // 2. 空间固定：不足或者浪费
 
-        Array arr = new Array(20);
+        Array<Integer> arr = new Array<>(20); /*告诉Java，存放的是Integer类型*/
         for (int i = 0; i < 10; i++) {
             arr.addFirst(i);
         }

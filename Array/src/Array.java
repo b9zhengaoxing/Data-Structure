@@ -52,21 +52,6 @@ public class Array {
         this.add(size,e);
     }
 
-    /**
-     * 查找元素e的位置
-     * @param e
-     * @return index
-     */
-    public int find(int e){
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] == e){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
 
     /**
      * 向所有元素前增加一个新元素
@@ -137,6 +122,79 @@ public class Array {
         int res = data[index];
         data[index] = e;
         return res;
+    }
+
+    /**
+     * 查找数组中，是否包含元素e
+     * @param e
+     * @return
+     */
+    public boolean contains(int e){
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 查找数组中元素 e 的位置
+     * @param e
+     * @return 索引
+     */
+    public int find(int e){
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e){
+                return i;
+            }
+        }
+        return -1;/*无效索引通常定义为-1*/
+    }
+
+    /**
+     * 从数组中删除index位置的元素
+     * @param index
+     * @return
+     */
+    public int remove(int index){
+        if (index < 0 || index>size){
+            throw new IllegalArgumentException("Remove failed, Require index >= 0 && index < = size");
+        }
+
+        int res = data[index];
+        for (int i = index ; i < size-1 ; i++) {
+            data[i] = data[i+1];
+        }
+        size--;
+        return res;
+    }
+
+    /**
+     * 从数组中删除第一个位置的元素，返回对应的元素
+     * @return
+     */
+    public int removeFirst(){
+        return remove(0);
+    }
+
+    /**
+     * 从数组中删除最后一个位置的元素，返回对应的元素
+     * @return
+     */
+    public int removeLast(){
+        return remove(size-1);
+    }
+
+    /**
+     *
+     * @param e
+     */
+    public void removeElement(int e){
+        int index = find(e);
+        if (index != -1){
+            remove(index);
+        }
     }
 
     @Override/*覆盖父类方式，提示*/

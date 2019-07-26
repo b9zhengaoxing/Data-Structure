@@ -70,12 +70,12 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
      */
     public void add(int index,E e)
     {
-        if (size == data.length) {
-            throw new IllegalArgumentException("Add failed.Array is full");
-        }
-
         if (index < 0 || index>size){
             throw new IllegalArgumentException("Add failed, Require index >= 0 && index < = size");
+        }
+
+        if (size == data.length) {
+            resize(2 * data.length);/*扩容策略：不应该作为一个常数，规模上要和原来的长度相当*/
         }
 
         for (int i = size ; i > index ; i--) {
@@ -170,6 +170,12 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
         }
         size--;
         data[size] = null;/*释放最后对象的内存空间*/ //loitering objects 闲逛的对象
+
+
+        if (size == getCapacity()/4 && 0 != getCapacity()/2){/*预防复杂度震荡，采用lazy方式*/ /*不能new 0*/
+            resize(getCapacity()/2);
+        }
+
         return res;
     }
 
@@ -214,5 +220,17 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
         }
         res.append(']');
         return res.toString();
+    }
+
+    /**
+     * 动态改变数组的容量
+     * @param newCapacity
+     */
+    private void resize(int newCapacity){
+        E[] data_new = (E[])new Object[newCapacity];
+        for (int i = 0; i < size; i++) {
+            data_new[i] = data[i];
+        }
+        data = data_new;
     }
 }

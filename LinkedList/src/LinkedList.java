@@ -24,11 +24,11 @@ public class LinkedList<E> {
         }
     }
 
-    private Node head;
+    private Node dummyHead;//虚拟头节点
     private int size; /*private,只能内部修改*/
 
     public LinkedList () {
-        head = null;
+        dummyHead = new Node(null,null);
         size = 0;
     }
 
@@ -56,14 +56,7 @@ public class LinkedList<E> {
      */
     public void addFirst(E e){
 
-//        if (e == null){ /*因为这是数据，所以为空也没关系*/
-//            throw new IllegalArgumentException("addFirst error，e is Empty!");
-//        }
-
-//        Node node = new Node(e,this.head);
-//        this.head = node;
-        head = new Node(e, head);
-        size ++;
+        this.add(0,e);
     }
 
 
@@ -78,21 +71,14 @@ public class LinkedList<E> {
             throw new IllegalArgumentException("Add failed. Illegal index.");
         }
 
-        if (index == 0){
-            this.addFirst(e); /*对链表头节点的特殊处理*/
-        }else {
-            /*链表的循环*/
-            Node prev = this.head;
-            for (int i = 0; i < index - 1/*找到之前的*/; i++) {
-                prev = prev.next;
-            }
-//        Node node = new Node(e);
-//        node.next = prev.next;
-//        prev.next = node;
-
-            prev.next = new Node(e,prev.next);
-            size ++;
+        /*链表的循环*/
+        Node prev = this.dummyHead;
+        for (int i = 0; i < index - 1/*找到之前的*/; i++) {
+            prev = prev.next;
         }
+        prev.next = new Node(e,prev.next);
+        size ++;
+
     }
 
     /**

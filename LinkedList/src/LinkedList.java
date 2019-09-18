@@ -130,10 +130,11 @@ public class LinkedList<E> {
 
     /**
      * 修改链表index位置的元素，（0——base)个位置的元素为e,非常规操作，练习用
+     *
      * @param index
      * @param e
      */
-    public void set(int index,E e){
+    public void set (int index, E e) {
 
         if (index < 0 || index >= size/**/) {
             throw new IllegalArgumentException("Set Failed. Illegal index.");
@@ -154,6 +155,7 @@ public class LinkedList<E> {
 
     /**
      * 查找链表中是否存在元素 e
+     *
      * @return
      */
     public boolean contains (E e) {
@@ -169,9 +171,9 @@ public class LinkedList<E> {
 //        }
 
         //写法2
-        while (cur.next != null){
+        while (cur != null) {
 
-            if (cur.equals(e)){
+            if (cur.equals(e)) {
                 return true;
             }
             cur = cur.next;
@@ -180,21 +182,59 @@ public class LinkedList<E> {
         return false;
     }
 
+    //从链表中删除index（0——based）位置的元素，返回删除元素，非常规操作，练习用
+    public E remove (int index) {
+        if (index < 0 || index >= size/**/) {
+            throw new IllegalArgumentException("Remove Failed. Illegal index.");
+        }
+
+        //!!!错题本,for循环次数理解
+        Node prev = dummyHead;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+
+        Node delNode = prev.next;
+        prev.next = delNode.next;
+        delNode.next = null;
+        size--;
+
+        return delNode.e;
+    }
+
+    /**
+     * 删除首个元素
+     *
+     * @return
+     */
+    public E removeFirst () {
+        return remove(0);
+    }
+
+    /**
+     * 删除末尾元素
+     *
+     * @return
+     */
+    public E removeLast () {
+        return remove(size - 1);
+    }
+
     @Override
-    public String toString(){
+    public String toString () {
 
         StringBuilder res = new StringBuilder();
 
-        //写法2
+//        //写法2
 //        Node cur = dummyHead.next;
-//        while (cur.next != null){
+//        while (cur != null){
 //
 //            res.append(cur + "->");
 //            cur = cur.next;
 //        }
 
         //  for循环顺序， for（1，2，4）{3}
-        for (Node cur = dummyHead.next ; cur.next != null ; cur = cur.next) {
+        for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
             res.append(cur + "->");
         }
 

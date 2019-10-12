@@ -1,6 +1,6 @@
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         /*Java数组的问题*/
         // 1. 索引不表意
         // 2. 空间固定：不足或者浪费
@@ -11,7 +11,7 @@ public class Main {
         }
         System.out.println(arr);
 
-        arr.add(1,100);
+        arr.add(1, 100);
         System.out.println(arr);
 
 
@@ -26,5 +26,13 @@ public class Main {
 
         arr.removeFirst();
         System.out.println(arr);
+
+
+        Integer[] arr_int = new Integer[10];
+        for (int i = 0; i < arr_int.length; i++) {
+            arr_int[i] = i * 10;
+        }
+        Array<Integer> arr2 = new Array<>(arr_int);
+        System.out.println(arr2);
     }
 }

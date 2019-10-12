@@ -6,71 +6,91 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 构造函数，传入数组容量capacity构造Array
+     *
      * @param capacity
      */
-    public Array(int capacity){
+    public Array (int capacity) {
         data = (E[]) new Object[capacity];/*Java语言中不支持直接New 泛型数组 E[] Object类是任意类的父类*/
         size = 0;
     }
 
     /**
+     * 构造
+     * @param arr 传入数组构造Array
+     */
+    public Array (E[] arr){
+        if (arr == null){
+            throw new IllegalArgumentException("Array failed,arr[] == null !");
+        }
+
+        data = arr;
+        size = arr.length;
+    }
+
+    /**
      * 无参数构造函数，默认capacity = 10
+     *
      * @param capacity
      */
-    public Array(){
+    public Array () {
         this(10);
     }
 
     /**
      * 获取数组中元素的个数
+     *
      * @return
      */
-    public int getSize(){
+    public int getSize () {
         return size;
     }
 
     /**
      * 获取数组的容量
+     *
      * @return
      */
-    public int getCapacity(){
+    public int getCapacity () {
         return data.length;
     }
 
     /**
      * 返回数组是否为空
+     *
      * @return
      */
-    public boolean isEmpty(){
+    public boolean isEmpty () {
         return size == 0;
     }
 
     /**
      * 向所有元素后增加一个新元素
+     *
      * @param e
      */
-    public void addLast(E e){
-        this.add(size,e);
+    public void addLast (E e) {
+        this.add(size, e);
     }
 
 
     /**
      * 向所有元素前增加一个新元素
+     *
      * @param e
      */
-    public void addFirst(E e){
-        this.add(0,e);
+    public void addFirst (E e) {
+        this.add(0, e);
     }
 
     /**
      * 在index元素位置插入一个新元素e
+     *
      * @param index
      * @param e
      * @return
      */
-    public void add(int index,E e)
-    {
-        if (index < 0 || index>size){
+    public void add (int index, E e) {
+        if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed, Require index >= 0 && index < = size");
         }
 
@@ -78,11 +98,11 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
             resize(2 * data.length);/*扩容策略：不应该作为一个常数，规模上要和原来的长度相当*/
         }
 
-        for (int i = size ; i > index ; i--) {
-            data[i] = data[i-1];
+        for (int i = size; i > index; i--) {
+            data[i] = data[i - 1];
         }
         data[index] = e;
-        size ++;
+        size++;
     }
 
     /*作业：传入静态数组生成Array类的对象*/
@@ -97,12 +117,13 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 取出索引为index的元素 通过Get方法，用户永远无法使用那些没有使用空间
+     *
      * @param index
      * @return
      */
-    E get(int index){
+    E get (int index) {
 
-        if (index < 0 || index>size){
+        if (index < 0 || index > size) {
             throw new IllegalArgumentException("Get failed, Require index >= 0 && index < = size");
         }
 
@@ -111,12 +132,13 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 修改index元素为e 并且返回原值
+     *
      * @param index
      * @param e
      * @return
      */
-    public E set(int index,E e){
-        if (index < 0 || index>size){
+    public E set (int index, E e) {
+        if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed, Require index >= 0 && index < = size");
         }
 
@@ -128,12 +150,13 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 查找数组中，是否包含元素e
+     *
      * @param e
      * @return
      */
-    public boolean contains(E e){
+    public boolean contains (E e) {
         for (int i = 0; i < size; i++) {
-            if (data[i] == e){
+            if (data[i] == e) {
                 return true;
             }
         }
@@ -142,12 +165,13 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 查找数组中元素 e 的位置
+     *
      * @param e
      * @return 索引
      */
-    public int find(E e){
+    public int find (E e) {
         for (int i = 0; i < size; i++) {
-            if (data[i].equals(e)){/*两个类对象之间判等，使用.equals, 一个是引入比较一个是值比较，*/
+            if (data[i].equals(e)) {/*两个类对象之间判等，使用.equals, 一个是引入比较一个是值比较，*/
                 return i;
             }
         }
@@ -156,24 +180,25 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 从数组中删除index位置的元素
+     *
      * @param index
      * @return
      */
-    public E remove(int index){
-        if (index < 0 || index>size){
+    public E remove (int index) {
+        if (index < 0 || index > size) {
             throw new IllegalArgumentException("Remove failed, Require index >= 0 && index < = size");
         }
 
         E res = data[index];
-        for (int i = index ; i < size-1 ; i++) {
-            data[i] = data[i+1];
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
         }
         size--;
         data[size] = null;/*释放最后对象的内存空间*/ //loitering objects 闲逛的对象
 
 
-        if (size == getCapacity()/4 && 0 != getCapacity()/2){/*预防复杂度震荡，采用lazy方式*/ /*不能new 0*/
-            resize(getCapacity()/2);
+        if (size == getCapacity() / 4 && 0 != getCapacity() / 2) {/*预防复杂度震荡，采用lazy方式*/ /*不能new 0*/
+            resize(getCapacity() / 2);
         }
 
         return res;
@@ -181,40 +206,43 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 从数组中删除第一个位置的元素，返回对应的元素
+     *
      * @return
      */
-    public E removeFirst(){
+    public E removeFirst () {
         return remove(0);
     }
 
     /**
      * 从数组中删除最后一个位置的元素，返回对应的元素
+     *
      * @return
      */
-    public E removeLast(){
-        return remove(size-1);
+    public E removeLast () {
+        return remove(size - 1);
     }
 
     /**
      * 从数组中删除对应的元素
+     *
      * @param e
      */
-    public void removeElement(E e){
+    public void removeElement (E e) {
         int index = find(e);
-        if (index != -1){
+        if (index != -1) {
             remove(index);
         }
     }
 
     @Override/*覆盖父类方式，提示*/
-    public String toString() {
+    public String toString () {
 
         StringBuilder res = new StringBuilder();
-        res.append(String.format("size = %d , capacity = %d\n",size,data.length));
+        res.append(String.format("size = %d , capacity = %d\n", size, data.length));
         res.append('[');
         for (int i = 0; i < size; i++) {
             res.append(data[i]);
-            if (i != size -1){
+            if (i != size - 1) {
                 res.append(", ");
             }
         }
@@ -224,10 +252,11 @@ public class Array<E> {/*其他变量本质表示数据，这里泛型本质表�
 
     /**
      * 动态改变数组的容量
+     *
      * @param newCapacity
      */
-    private void resize(int newCapacity){
-        E[] data_new = (E[])new Object[newCapacity];
+    private void resize (int newCapacity) {
+        E[] data_new = (E[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
             data_new[i] = data[i];
         }

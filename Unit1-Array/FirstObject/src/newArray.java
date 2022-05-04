@@ -20,22 +20,7 @@ public class newArray {
         this(10);
     }
 
-    //获取当前大小
-    public int getSize() {
-        return size;
-    }
-
-    //获取最大空间
-    public int getCapacity() {
-        return data.length;
-    }
-
-    //是否为空
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public void javaGramma() {
+    public void arrayGrammar() {
         //声明数组 + 变量名 int[] double[] String[]
         //分配内存，初始化 new
         //初始化时候需要指定数组大小  = new int[10];
@@ -58,6 +43,52 @@ public class newArray {
         for (int score : scores) {
             System.out.println(score);
         }
+    }
+
+    //获取当前大小
+    public int getSize() {
+        return size;
+    }
+
+    //获取最大空间
+    public int getCapacity() {
+        return data.length;
+    }
+
+    //是否为空
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    //队尾插入 直接插入
+    public void addLast(int aData) {
+        this.add(size, aData);
+    }
+
+    //复用
+    public void addFirst(int aData) {
+        this.add(0, aData);
+    }
+
+    //队中插入 依次向前
+    public void add(int index, int aData) {
+        if (size >= data.length - 1) {
+            throw new IllegalArgumentException("add failed, size >= data.length - 1 index : " + index + " data : " + aData);
+        }
+
+        if (index >= data.length || index < 0) {
+            throw new IllegalArgumentException("add failed, index > capacity || index < 0 index : " + index + " data : " + aData);
+        }
+
+        if (index > size) {
+            throw new IllegalArgumentException("add failed, index > size");
+        }
+
+        for (int i = size; i > index; i--) {
+            data[i + 1] = data[i];
+        }
+        data[index] = aData;
+        size++;
     }
 }
 

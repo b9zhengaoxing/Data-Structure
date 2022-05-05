@@ -73,18 +73,18 @@ public class newArray {
     //队中插入 依次向前
     public void add(int index, int aData) {
         if (size >= data.length - 1) {
-            throw new IllegalArgumentException("add failed, size >= data.length - 1 index : " + index + " data : " + aData);
+            throw new IllegalArgumentException(String.format("add failed, size >= data.length - 1 index:%d  data:%d",index,aData));
         }
 
         if (index >= data.length || index < 0) {
-            throw new IllegalArgumentException("add failed, index > capacity || index < 0 index : " + index + " data : " + aData);
+            throw new IllegalArgumentException(String.format("add failed, index > capacity || index < 0 index:%d data:%d",index,aData));
         }
 
         if (index > size) {
             throw new IllegalArgumentException("add failed, index > size");
         }
 
-        for (int i = size; i > index; i--) {
+        for (int i = size - 1; i >= index; i--) {
             data[i + 1] = data[i];
         }
         data[index] = aData;

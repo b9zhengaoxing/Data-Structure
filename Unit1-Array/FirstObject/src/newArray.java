@@ -108,6 +108,14 @@ public class newArray {
         return data[index];
     }
 
+    public void set(int index, int aData) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException(String.format("set failed, index < 0 || index >= size"));
+        }
+
+        data[index] = aData;
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();

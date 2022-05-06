@@ -113,12 +113,12 @@ public class newArray {
         StringBuilder res = new StringBuilder();
         res.append(String.format("Size:%d Capacity:%d\n", size, data.length));
         res.append("[ ");
-        if (data.length > 0) {
-            for (int aData : data) {
-                res.append(aData + " ");
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                res.append(data[i] + " ");
             }
         }
-        res.append(" ]\n");
+        res.append("]\n");
         return res.toString();
     }
 }

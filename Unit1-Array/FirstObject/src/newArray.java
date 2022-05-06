@@ -73,11 +73,11 @@ public class newArray {
     //队中插入 依次向前
     public void add(int index, int aData) {
         if (size >= data.length - 1) {
-            throw new IllegalArgumentException(String.format("add failed, size >= data.length - 1 index:%d  data:%d",index,aData));
+            throw new IllegalArgumentException(String.format("add failed, size >= data.length - 1 index:%d  data:%d", index, aData));
         }
 
         if (index >= data.length || index < 0) {
-            throw new IllegalArgumentException(String.format("add failed, index > capacity || index < 0 index:%d data:%d",index,aData));
+            throw new IllegalArgumentException(String.format("add failed, index > capacity || index < 0 index:%d data:%d", index, aData));
         }
 
         if (index > size) {
@@ -89,6 +89,37 @@ public class newArray {
         }
         data[index] = aData;
         size++;
+    }
+
+
+    public int getFirst() {
+        return this.get(0);
+    }
+
+    public int getLast() {
+        return this.get(size - 1);
+    }
+
+    public int get(int index) {
+        //访问控制！非法监测，无法访问 没有的元素
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Get failed,index<0 || index>=size");
+        }
+        return data[index];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format("Size:%d Capacity:%d\n", size, data.length));
+        res.append("[ ");
+        if (data.length > 0) {
+            for (int aData : data) {
+                res.append(aData + " ");
+            }
+        }
+        res.append(" ]\n");
+        return res.toString();
     }
 }
 

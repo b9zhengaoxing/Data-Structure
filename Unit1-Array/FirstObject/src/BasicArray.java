@@ -1,6 +1,4 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-public class newArray {
+public class BasicArray {
 
     //成员变量设计 private 避免外部访问，造成数据不一致情况
     private int[] data;
@@ -10,13 +8,13 @@ public class newArray {
     //    作 用： 为对象成员变量赋初始值
     //    外文名： constructor
     //    语 句： new运算符一起使用
-    public newArray(int capacity) {
+    public BasicArray(int capacity) {
         data = new int[capacity];
         size = 0;
     }
 
     //constructor overload
-    public newArray() {
+    public BasicArray() {
         this(10);
     }
 
@@ -72,25 +70,51 @@ public class newArray {
 
     //队中插入 依次向前
     public void add(int index, int aData) {
-        if (size >= data.length - 1) {
+        if (size >= data.length - 1)
             throw new IllegalArgumentException(String.format("add failed, size >= data.length - 1 index:%d  data:%d", index, aData));
-        }
 
-        if (index >= data.length || index < 0) {
+        if (index >= data.length || index < 0)
             throw new IllegalArgumentException(String.format("add failed, index > capacity || index < 0 index:%d data:%d", index, aData));
-        }
 
-        if (index > size) {
+        if (index > size)
             throw new IllegalArgumentException("add failed, index > size");
-        }
 
-        for (int i = size - 1; i >= index; i--) {
+        for (int i = size - 1; i >= index; i--)
             data[i + 1] = data[i];
-        }
+
         data[index] = aData;
         size++;
     }
 
+    public int remove(int index) {
+        if (index >= data.length || index < 0)
+            throw new IllegalArgumentException(String.format("remove failed, index > capacity || index < 0 index:%d", index));
+
+        if (index > size - 1)
+            throw new IllegalArgumentException("remove failed, index > size - 1");
+
+        if (size == 0)
+            throw new IllegalArgumentException("remove failed, size == 0");
+
+        int res = data[index];
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        size--;
+        return res;
+    }
+
+    public int removeFirst() {
+        return remove(0);
+    }
+
+    ;
+
+    public int removeLast() {
+        return remove(size - 1);
+    }
+
+    ;
 
     public int getFirst() {
         return this.get(0);
@@ -100,18 +124,30 @@ public class newArray {
         return this.get(size - 1);
     }
 
+    //set/get + private 存取访问控制
     public int get(int index) {
         //访问控制！非法监测，无法访问 没有的元素
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= size)
             throw new IllegalArgumentException("Get failed,index<0 || index>=size");
-        }
+
         return data[index];
     }
 
-    public void set(int index, int aData) {
-        if (index < 0 || index >= size) {
-            throw new IllegalArgumentException(String.format("set failed, index < 0 || index >= size"));
+    public int getIndex(int e) {//O(n)
+        //访问控制！非法监测，无法访问 没有的元素
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                if (data[i] == e) {
+                    return i;
+                }
+            }
         }
+        return -1;
+    }
+
+    public void set(int index, int aData) {
+        if (index < 0 || index >= size)
+            throw new IllegalArgumentException(String.format("set failed, index < 0 || index >= size"));
 
         data[index] = aData;
     }

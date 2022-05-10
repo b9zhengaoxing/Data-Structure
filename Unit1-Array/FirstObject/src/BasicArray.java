@@ -70,14 +70,11 @@ public class BasicArray {
 
     //队中插入 依次向前
     public void add(int index, int aData) {
-        if (size >= data.length - 1)
-            throw new IllegalArgumentException(String.format("add failed, size >= data.length - 1 index:%d  data:%d", index, aData));
+        if (size == data.length)
+            throw new IllegalArgumentException("Add failed! The array is full.");
 
-        if (index >= data.length || index < 0)
-            throw new IllegalArgumentException(String.format("add failed, index > capacity || index < 0 index:%d data:%d", index, aData));
-
-        if (index > size)
-            throw new IllegalArgumentException("add failed, index > size");
+        if (index > size && index < 0)
+            throw new IllegalArgumentException("index > size && index < 0");
 
         for (int i = size - 1; i >= index; i--)
             data[i + 1] = data[i];
@@ -87,14 +84,8 @@ public class BasicArray {
     }
 
     public int remove(int index) {
-        if (index >= data.length || index < 0)
-            throw new IllegalArgumentException(String.format("remove failed, index > capacity || index < 0 index:%d", index));
-
-        if (index > size - 1)
-            throw new IllegalArgumentException("remove failed, index > size - 1");
-
-        if (size == 0)
-            throw new IllegalArgumentException("remove failed, size == 0");
+        if (index > size - 1 || index < 0)
+            throw new IllegalArgumentException(String.format("index > size - 1 || index < 0 index:%d", index));
 
         int res = data[index];
         for (int i = index; i < size - 1; i++) {

@@ -1,6 +1,6 @@
 public class DynamicArray<E> {/*泛型类*/
 
-    private final E[] data;
+    private E[] data;
     private int size;
 
     //    构造函数，是一种特殊的方法。 主要用来在创建对象时初始化对象， 即为对象成员变量赋初始值，总与new运算符一起使用在创建对象的语句中。 特别的一个类可以有多个构造函数，可根据其参数个数的不同或参数类型的不同来区分它们即构造函数的重载。
@@ -55,6 +55,21 @@ public class DynamicArray<E> {/*泛型类*/
 
         data[index] = aData;
         size++;
+
+        //伸缩
+        if (size == data.length)
+            this.resizing(2 * size);
+    }
+
+    protected void resizing(int capacity) {
+        if (capacity <= 0)
+            throw new IllegalArgumentException("Resizing Failed ! capacity <= 0 ");
+
+        E[] newData = (E[]) new Object[capacity];
+        for (int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
     }
 
     public E remove(int index) {
@@ -65,8 +80,10 @@ public class DynamicArray<E> {/*泛型类*/
         for (int i = index; i < size - 1; i++) {
             data[i] = data[i + 1];
         }
-        data[size-1] = null;
+        data[size - 1] = null;
         size--;
+        if (size == data.length/4)
+            this.resizing(data.length/2);
         return res;
     }
 
@@ -160,13 +177,31 @@ public class DynamicArray<E> {/*泛型类*/
 //        System.out.println(aArr.removeLast());
 //        System.out.println(aArr);
 
-        DynamicArray<Student> studentArr =  new DynamicArray<>(20);
-        studentArr.addLast(new Student("张三",99));
-        studentArr.addLast(new Student("李四",87));
-        studentArr.addLast(new Student("王五",35));
-        studentArr.addLast(new Student("赵六",22));
+//        DynamicArray<Student> studentArr = new DynamicArray<>(10);
+//        studentArr.addLast(new Student("张三", 99));
+//        studentArr.addLast(new Student("李四", 87));
+//        studentArr.addLast(new Student("王五", 35));
+//        studentArr.addLast(new Student("赵六", 22));
+//        System.out.println(studentArr.toString());
 
-        System.out.println(studentArr.toString());
+        //可伸缩动态数组
+        DynamicArray<Integer> aArr = new DynamicArray<>(10);
+        System.out.println("capacity:"+ aArr.getCapacity());
+
+        for (int i = 0; i < 11; i++)
+            aArr.addLast(i);
+        System.out.println("capacity:"+ aArr.getCapacity());
+        System.out.println(aArr);
+
+        for (int i = 0; i < 11; i++)
+            aArr.addLast(i);
+        System.out.println("capacity:"+ aArr.getCapacity());
+        System.out.println(aArr);
+
+        for (int i = 0; i < 15; i++)
+            aArr.removeLast();
+        System.out.println("capacity:"+ aArr.getCapacity());
+        System.out.println(aArr);
     }
 }
 

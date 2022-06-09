@@ -211,19 +211,18 @@ public class SolutionInner {
     public boolean isValid(String s) {
         ArrayStack<Character> stack = new ArrayStack<>();
         for (int i = 0; i < s.length(); i++) {
-            Character character = s.charAt(i);
-            if (character.equals('(') || character.equals('[') || character.equals('{')) {
+            char character = s.charAt(i);
+            if (character == '(' || character == '[' || character == '{') {
                 stack.push(character);
             } else {
                 if (stack.isEmpty())
                     return false;
-                if (character.equals(')') && stack.peek().equals('(')) {
-                    stack.pop();
-                } else if (character.equals(']') && stack.peek().equals('[')) {
-                    stack.pop();
-                } else if (character.equals('}') && stack.peek().equals('{')) {
-                    stack.pop();
-                } else {
+                char top = stack.pop();
+                if (character == ')' && top != '(') {
+                    return false;
+                } else if (character == ']' && top != '[') {
+                    return false;
+                } else if (character == '}' && top != '{') {
                     return false;
                 }
             }

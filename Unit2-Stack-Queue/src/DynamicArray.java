@@ -44,8 +44,6 @@ public class DynamicArray<E> {/*泛型类*/
 
     //队中插入 依次向前
     public void add(int index, E aData) {
-        if (size == data.length)
-            throw new IllegalArgumentException("Add failed! The array is full.");
 
         if (index > size && index < 0)
             throw new IllegalArgumentException("index > size && index < 0");
@@ -185,7 +183,7 @@ public class DynamicArray<E> {/*泛型类*/
 //        System.out.println(studentArr.toString());
 
         //可伸缩动态数组
-        DynamicArray<Integer> aArr = new DynamicArray<>(10);
+        DynamicArray<Integer> aArr = new DynamicArray<>(3);
         System.out.println("capacity:"+ aArr.getCapacity());
 
         for (int i = 0; i < 11; i++)

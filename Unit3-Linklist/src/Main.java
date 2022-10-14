@@ -10,10 +10,10 @@ public class Main {
         list.add(3,100);
         System.out.println(list.toString());
 
-        list.delete(20);
+        list.remove(20);
         System.out.println(list.toString());
 
-        list.deleteFirst();
+        list.removeFirst();
         System.out.println(list.toString());
 
         System.out.println(list.get(10));

@@ -26,12 +26,12 @@ public class Linklist<E> {
         }
     }
 
-    private Node head;
+    private Node dummyHead;
     private int size;
 
     public Linklist() {
 
-        head = null;// 忘记初始化方案了 泛型 是Data 而Node 和Linklist是结构
+        dummyHead = new Node();// 忘记初始化方案了 泛型 是Data 而Node 和Linklist是结构
         size = 0;
     }
 
@@ -42,27 +42,21 @@ public class Linklist<E> {
 
         Node node = new Node(e);
 
-        if (index == 0) {
-            node.next = head;
-            head = node;
-            size++;
-        } else {
-            Node pre = head;
-            for (int i = 0; i < index - 1; i++) {
-                pre = pre.next;
-            }
-
-            node.next = pre.next;
-            pre.next = node;
-            size++;
+        Node pre = dummyHead;
+        for (int i = 0; i < index - 1; i++) {
+            pre = pre.next;
         }
+
+        node.next = pre.next;
+        pre.next = node;
+        size++;
     }
 
     public void addFirst(E e) {
         this.add(0, e);
     }
 
-    public E delete(int index) {
+    public E remove(int index) {
         if (index < 0 || index > size - 1) {
             throw new IllegalArgumentException("delete Error,index < 0 || index > size, index = " + index);
         }
@@ -72,24 +66,19 @@ public class Linklist<E> {
         }
 
         Node res = null;
-        if (index == 0) {
-            res = head;
-            head = head.next;
-        } else {
-            Node pre = head;
-            for (int i = 0; i < index - 1; i++) {
-                pre = pre.next;
-            }
-            res = pre.next;
-            pre.next = res.next;
+        Node pre = dummyHead;
+        for (int i = 0; i < index - 1; i++) {
+            pre = pre.next;
         }
+        res = pre.next;
+        pre.next = res.next;
 
         size--;
         return res.e;
     }
 
-    public E deleteFirst() {
-        return this.delete(0);
+    public E removeFirst() {
+        return this.remove(0);
     }
 
     public E get(int index) {
@@ -101,7 +90,7 @@ public class Linklist<E> {
             throw new IllegalArgumentException("Find Error, Linklist is empty");
         }
 
-        Node res = head;
+        Node res = dummyHead;
         for (int i = 0; i < index; i++) {
             res = res.next;
         }
@@ -120,7 +109,7 @@ public class Linklist<E> {
     public String toString() {
         StringBuilder res = new StringBuilder();
         res.append("Linklist Size:" + size + " Head:");
-        Node pre_node = head;
+        Node pre_node = dummyHead.next;
         for (int i = 0; i < size; i++) {
             res.append(pre_node.toString() + " -> ");
             pre_node = pre_node.next;

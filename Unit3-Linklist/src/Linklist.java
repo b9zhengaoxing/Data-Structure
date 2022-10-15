@@ -40,15 +40,16 @@ public class Linklist<E> {
             throw new IllegalArgumentException("Add error,Index illegal,index : " + index);
         }
 
-        Node node = new Node(e);
-
         Node pre = dummyHead;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < index; i++) {
             pre = pre.next;
         }
 
-        node.next = pre.next;
-        pre.next = node;
+//        Node node = new Node(e);
+//        node.next = pre.next;
+//        pre.next = node;
+
+        pre.next = new Node(e,pre.next);
         size++;
     }
 
@@ -69,16 +70,20 @@ public class Linklist<E> {
             throw new IllegalArgumentException("delete Error, Linklist is empty");
         }
 
-        Node res = null;
         Node pre = dummyHead;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < index; i++) {
             pre = pre.next;
         }
-        res = pre.next;
-        pre.next = res.next;
+
+        Node delNode = null;
+        if (pre.next != null){
+            delNode = pre.next;
+            pre.next = delNode.next;
+            delNode.next = null;
+        }
 
         size--;
-        return res.e;
+        return delNode.e;
     }
 
     public E removeFirst() {
@@ -152,10 +157,10 @@ public class Linklist<E> {
     public String toString() {
         StringBuilder res = new StringBuilder();
         res.append("Linklist Size:" + size + " Head:");
-        Node pre_node = dummyHead.next;
+        Node pre_node = dummyHead;
         while (pre_node.next != null) {//Linklist 没有 index 概念，此处使用,while 进行遍历
-            res.append(pre_node.toString() + " -> ");
             pre_node = pre_node.next;
+            res.append(pre_node.toString() + " -> ");
 
             // ToString 打印类的描述，toString里面调用了toString 出现
             // Exception in thread "main" java.lang.NullPointerException
@@ -163,4 +168,37 @@ public class Linklist<E> {
         res.append("NULL Tail");
         return res.toString();
     }
+
+    public static void main(String[] args) {
+
+        Linklist list = new Linklist<Integer>();
+        for(int i = 0 ; i < 10 ; i ++){
+            list.add(i,i);
+//            list.addFirst(i);
+        }
+        System.out.println(list.toString());
+        list.add(3,100);
+        System.out.println(list.toString());
+
+        list.remove(10);
+        System.out.println(list.toString());
+        list.removeFirst();
+        System.out.println(list.toString());
+
+
+        list.set(8,-99);
+        System.out.println(list.toString());
+
+        list.setLast(21);
+        list.setFirst(81);
+        System.out.println(list.toString());
+
+        System.out.println(list.contain(81) + " " + list.toString());
+
+
+        System.out.println(list.get(5));
+        System.out.println(list.getFirst());
+        System.out.println(list.getLast());
+    }
+
 }

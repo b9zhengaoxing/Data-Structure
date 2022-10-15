@@ -3,7 +3,8 @@ public class Main {
 
         Linklist list = new Linklist<Integer>();
         for(int i = 0 ; i < 10 ; i ++){
-            list.addFirst(i);
+            list.add(i,i);
+//            list.addFirst(i);
         }
         System.out.println(list.toString());
         list.add(3,100);

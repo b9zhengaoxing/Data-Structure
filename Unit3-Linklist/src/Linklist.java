@@ -56,6 +56,10 @@ public class Linklist<E> {
         this.add(0, e);
     }
 
+    public void addLast(E e) {
+        this.add(size, e);
+    }
+
     public E remove(int index) {
         if (index < 0 || index > size - 1) {
             throw new IllegalArgumentException("delete Error,index < 0 || index > size, index = " + index);
@@ -83,19 +87,58 @@ public class Linklist<E> {
 
     public E get(int index) {
         if (index < 0 || index > size) {
-            throw new IllegalArgumentException("Find Error,index < 0 || index > size, index = " + index);
+            throw new IllegalArgumentException("get Error,index < 0 || index > size, index = " + index);
         }
 
         if (this.isEmpty()) {
-            throw new IllegalArgumentException("Find Error, Linklist is empty");
+            throw new IllegalArgumentException("get Error, Linklist is empty");
         }
 
-        Node res = dummyHead;
+        Node res = dummyHead.next;
         for (int i = 0; i < index; i++) {
             res = res.next;
         }
         return res.e;
     }
+
+    public E getFirst() {
+        return this.get(0);
+    }
+
+    public E getLast() {
+        return this.get(size - 1);
+    }
+
+    public E set(int index, E e) {
+        if (index < 0 || index > size - 1)
+            throw new IllegalArgumentException("set Error: index < 0 || index > size - 1");
+        Node cur = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        E res = cur.e;
+        cur.e = e;
+        return res;
+    }
+
+    public E setFirst(E e) {
+        return this.set(0, e);
+    }
+
+    public E setLast(E e) {
+        return this.set(size - 1, e);
+    }
+
+    public boolean contain(E e) {
+        Node cur = dummyHead;
+        while (!cur.next.equals(null)) {
+            cur = cur.next;
+            if (cur.e.equals(e))
+                return true;
+        }
+        return false;
+    }
+
 
     public Boolean isEmpty() {
         return size == 0;
@@ -110,7 +153,7 @@ public class Linklist<E> {
         StringBuilder res = new StringBuilder();
         res.append("Linklist Size:" + size + " Head:");
         Node pre_node = dummyHead.next;
-        for (int i = 0; i < size; i++) {
+        while (pre_node.next != null) {//Linklist 没有 index 概念，此处使用,while 进行遍历
             res.append(pre_node.toString() + " -> ");
             pre_node = pre_node.next;
 

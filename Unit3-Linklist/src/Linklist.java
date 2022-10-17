@@ -66,10 +66,6 @@ public class Linklist<E> {
             throw new IllegalArgumentException("delete Error,index < 0 || index > size, index = " + index);
         }
 
-        if (this.isEmpty()) {
-            throw new IllegalArgumentException("delete Error, Linklist is empty");
-        }
-
         Node pre = dummyHead;
         for (int i = 0; i < index; i++) {
             pre = pre.next;

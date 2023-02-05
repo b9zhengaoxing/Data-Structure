@@ -1,4 +1,6 @@
 import java.lang.reflect.Array;
+import java.util.Stack;
+import java.util.LinkedList;
 
 public class BST<E extends Comparable> {
 
@@ -6,7 +8,7 @@ public class BST<E extends Comparable> {
     //
     private class Node {
         public E data;
-        public Node left,right; //同一类型写在一起
+        public Node left, right; //同一类型写在一起
 
         public Node(E e) {
             data = e;
@@ -126,6 +128,7 @@ public class BST<E extends Comparable> {
             return false;
     }
 
+    // Depth-First-Search，DFS
     public void preOrder() {
         this.preOrder(root);
     }
@@ -167,15 +170,69 @@ public class BST<E extends Comparable> {
         System.out.println(node.data);
     }
 
+    public void preOrderNR() {
+        if (root == null)
+            return;
+
+        //系统Stack 使用，import java.util.stack就可以
+        Stack<Node> stack = new Stack<Node>();
+        stack.push(root);
+        Node cur;
+        //使用stack，入stack 出stack的不同实现
+        while (!stack.isEmpty()) {
+            cur = stack.pop();
+            System.out.println(cur.data);
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+        }
+    }
+
+    public void inOrderNR() {
+        if (root == null)
+            return;
+
+        //系统Stack 使用，import java.util.stack就可以
+        Stack<Node> stack = new Stack<Node>();
+        stack.push(root);
+        Node cur = root;
+        //使用stack 后进先出
+        while (!stack.isEmpty()) {
+
+            if (cur.left != null) {
+                stack.push(cur.left);
+                cur = cur.left;
+            } else {
+                cur = stack.pop();
+                System.out.println(cur.data);
+
+                if (cur.right != null) {
+                    stack.push(cur.right);
+                    cur = cur.right;
+                }
+            }
+        }
+    }
+
+    //留白
+    public void postOrderNR() {
+
+    }
+
+
     @Override
     public String toString() {
 
         StringBuilder res = new StringBuilder();
-        res = this.generatePreOrderBST(root,0,res);
+        res = this.generatePreOrderBST(root, 0, res);
         return res.toString();
     }
 
-    private StringBuilder generatePreOrderBST(Node node , int deep , StringBuilder str) {
+    private StringBuilder generatePreOrderBST(Node node, int deep, StringBuilder str) {
 
         if (node == null)
             return str;
@@ -186,29 +243,31 @@ public class BST<E extends Comparable> {
             str.append(level_str);
         }
 
-        deep ++; // ++
+        deep++; // ++
 
         str.append(node.data.toString());
         str.append("\n");
-        str = this.generatePreOrderBST(node.left,deep,str);
-        str = this.generatePreOrderBST(node.right,deep,str);
+        str = this.generatePreOrderBST(node.left, deep, str);
+        str = this.generatePreOrderBST(node.right, deep, str);
 
         return str;
     }
 
     public static void main(String[] args) {
-        int[] array = {5,3,6,8,4,2};
+        int[] array = {5, 3, 6, 8, 4, 1, 2};
         BST<Integer> binaryTree = new BST();  //泛型，非基础类型，要使用对象实现
-        System.out.println("Empty："+ binaryTree.isEmpty());
-        for (int i :array) {
+        System.out.println("Empty：" + binaryTree.isEmpty());
+        for (int i : array) {
             binaryTree.add_fix(i);
         }
 
-        System.out.println("Empty："+ binaryTree.isEmpty());
-        System.out.println("Size："+ binaryTree.getSize());
+        System.out.println("Empty：" + binaryTree.isEmpty());
+        System.out.println("Size：" + binaryTree.getSize());
 
 //        binaryTree.preOrder();
+//        binaryTree.preOrderNR();
 //        binaryTree.inOrder();
+//        binaryTree.inOrderNR();
         binaryTree.postOrder();
 
         System.out.println(binaryTree.toString());

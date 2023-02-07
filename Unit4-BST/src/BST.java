@@ -1,6 +1,6 @@
-import java.lang.reflect.Array;
 import java.util.Stack;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class BST<E extends Comparable> {
 
@@ -200,7 +200,7 @@ public class BST<E extends Comparable> {
         Stack<Node> stack = new Stack<Node>();
         stack.push(root);
         Node cur = root;
-        //使用stack 后进先出
+        //使用stack 后进先出 —— 调整顺序
         while (!stack.isEmpty()) {
 
             if (cur.left != null) {
@@ -221,6 +221,27 @@ public class BST<E extends Comparable> {
     //留白
     public void postOrderNR() {
 
+    }
+
+    //广度优先
+    public void levelOrder(){
+        if(root == null)
+            return;
+
+        //一个问题 为什么Queue是接口，但是Stack 却是实现了的类？
+        Queue<Node> queue = new LinkedList<Node>();
+        queue.add(root);
+        Node cur;
+
+        //使用Queue，按层次进入
+        while (!queue.isEmpty()){
+            cur = queue.remove();
+            System.out.println(cur.data);
+            if (cur.left != null)
+                queue.add(cur.left);
+            if (cur.right != null)
+                queue.add(cur.right);
+        }
     }
 
 
@@ -268,7 +289,8 @@ public class BST<E extends Comparable> {
 //        binaryTree.preOrderNR();
 //        binaryTree.inOrder();
 //        binaryTree.inOrderNR();
-        binaryTree.postOrder();
+//        binaryTree.postOrder();
+        binaryTree.levelOrder();
 
         System.out.println(binaryTree.toString());
     }
